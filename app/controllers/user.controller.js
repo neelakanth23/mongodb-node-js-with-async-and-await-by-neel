@@ -1,6 +1,7 @@
 const userDetails = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const exceljs = require("exceljs");
 
 const createUser = async (req, res, next) => {
 	try {
@@ -143,6 +144,55 @@ const updateUser = async (req, res, next) => {
 	}
 };
 
+const exportUsers = async (req, res, next) => {
+	try {
+		const workbook = new exceljs.Workbook();
+		const worksheet = workbook.addWorksheet("My Users");
+
+		worksheet.columns = [
+			{ header: "Sl.no", key: "sl_no" },
+			{ header: "Username", key: "userName" },
+			{ header: "email", key: "email" },
+			{ header: "Password", key: "password" },
+			{ header: "PhoneNumber", key: "phoneNumber" },
+		];
+		let counter = 1;
+
+		const userData = await userDetails.find();
+
+		userData.forEach((user) => {
+			user.sl_no = counter;
+			worksheet.addRow(user);
+			counter++;
+		});
+		worksheet.getRow(1).eachCell((cell) => {
+			cell.font = { bold: true };
+		});
+
+		res.setHeader(
+			"Content-Type",
+			"application/vnd.openxmlformats-officedocument.spreadsheatml.sheet"
+		);
+
+		res.setHeader("Content-Disposition", `attachment; filename=users.xlsx`);
+
+		return workbook.xlsx.write(res).then(() => {
+			res.status(200);
+		});
+	} catch (err) {
+		next(err);
+	}
+};
+
+module.exports = {
+	createUser,
+	getUser,
+	getUserById,
+	updateUser,
+	userlogin,
+	exportUsers,
+};
+
 // const updateUser = async (req, res) => {
 // 	const { userName, email, phoneNumber } = req.body;
 // 	let user = await userDetails.findByIdAndUpdate(req.params.id, {
@@ -155,8 +205,6 @@ const updateUser = async (req, res, next) => {
 // 		response: user,
 // 	});
 // };
-
-module.exports = { createUser, getUser, getUserById, updateUser, userlogin };
 
 // const updateUser = async (req, res, next) => {
 // 	try {
