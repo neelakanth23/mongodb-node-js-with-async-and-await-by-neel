@@ -14,7 +14,6 @@ var corsOptions = {
 };
 app.use(bodyParser.json());
 
-
 app.use(cors(corsOptions));
 
 app.use(
@@ -32,6 +31,9 @@ app.use("/user", userRouter);
 
 const shopRouter = require("./app/routes/shop.route");
 app.use("/shop", shopRouter);
+
+const propertyRouter = require("./app/routes/property.route");
+app.use("/property", propertyRouter);
 
 app.use(express.static(__dirname));
 // app.use("/app/uploads", express.static("uploads"));

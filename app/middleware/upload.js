@@ -23,7 +23,22 @@ var upload = multer({
 		}
 	},
 	limits: {
-		fileSize: 1024 * 1024 * 1024 * 2,
+		fileSize: 1024 * 1024 * 1024 * 1024 * 2,
 	},
 });
+
+// var uploads = multer({
+// 	storage: Storage,
+// 	fileFilter: function (req, files, callback) {
+// 		if (files.mimetype == "image/png" || files.mimetype == "image/jpg") {
+// 			callback(null, true);
+// 		} else {
+// 			console.log("only jpg & png files supported!");
+// 			callback(null, false);
+// 		}
+// 	},
+// 	limits: {
+// 		fileSize: 1024 * 1024 * 1024 * 1024 * 1024 * 2,
+// 	},
+// });
 module.exports = upload;

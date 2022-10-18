@@ -10,7 +10,7 @@ const createShop = async (req, res, next) => {
 
 		let image = url + "/app/middleware/uploads/" + req.file.filename;
 		console.log(image);
-
+        console.log(shopDetails)
 		if (req.file) {
 			shopDetails.shopPicture = req.file.path;
 		}
@@ -165,7 +165,7 @@ const updateShop = async (req, res, next) => {
 			);
 			res.status(200).json({
 				error: false,
-				message: "shop created successfully",
+				message: "shop updated successfully",
 				Response: shopData,
 			});
 		}
