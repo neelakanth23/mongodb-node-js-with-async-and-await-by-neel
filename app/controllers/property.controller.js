@@ -175,7 +175,7 @@ const updateProperty = async (req, res, next) => {
 		} = req.body;
 		console.log(req.body);
 
-		if (req.file) {
+		if (req.files) {
 			const url = req.protocol + "://" + req.get("host");
 			let image = url + "/app/middleware/uploads/" + req.file.filename;
 			console.log(image);

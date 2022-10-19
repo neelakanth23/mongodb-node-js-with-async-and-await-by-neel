@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { user } = require("./user.model");
 
-const shopSchmea = new mongoose.Schema({
+const shopSchema = new mongoose.Schema({
 	shopName: {
 		type: String,
 		required: true,
@@ -28,5 +28,5 @@ const shopSchmea = new mongoose.Schema({
 	// timestamps: true,
 });
 
-const shopDetails = mongoose.model("shop", shopSchmea);
+const shopDetails = mongoose.model("shop", shopSchema);
 module.exports = shopDetails;

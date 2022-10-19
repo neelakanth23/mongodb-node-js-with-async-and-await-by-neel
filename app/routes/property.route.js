@@ -21,7 +21,9 @@ router.post(
 router.put(
 	"/update-property/:id",
 	//upload.single("profilePicture"),
-	upload.array("gallary", 4),
+	// upload.fields([
+	// 	{}
+	// ]),
 	updateProperty
 );
 router.get("/get-property/:id", getPropertyById);

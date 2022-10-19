@@ -35,6 +35,9 @@ app.use("/shop", shopRouter);
 const propertyRouter = require("./app/routes/property.route");
 app.use("/property", propertyRouter);
 
+const bookRouter = require("./app/routes/book.route");
+app.use("/book", bookRouter);
+
 app.use(express.static(__dirname));
 // app.use("/app/uploads", express.static("uploads"));
 app.use("/", (req, res) => {

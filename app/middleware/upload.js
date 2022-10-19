@@ -21,6 +21,11 @@ var upload = multer({
 			console.log("only jpg & png file supported!");
 			callback(null, false);
 		}
+		if (file.mimetype.split("/")[1] === "pdf") {
+			callback(null, true);
+		} else {
+			callback(new Error("Not a PDF file"), false);
+		}
 	},
 	limits: {
 		fileSize: 1024 * 1024 * 1024 * 1024 * 2,

@@ -2,7 +2,7 @@ const { string } = require("joi");
 const mongoose = require("mongoose");
 const { user } = require("./user.model");
 
-const propertySchmea = new mongoose.Schema({
+const propertySchema = new mongoose.Schema({
 	hotelName: {
 		type: String,
 		required: true,
@@ -54,5 +54,5 @@ const propertySchmea = new mongoose.Schema({
 	// timestamps: true,
 });
 
-const propertyDetails = mongoose.model("property", propertySchmea);
+const propertyDetails = mongoose.model("property", propertySchema);
 module.exports = propertyDetails;
