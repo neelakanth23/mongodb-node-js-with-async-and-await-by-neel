@@ -2,6 +2,65 @@ const userDetails = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const exceljs = require("exceljs");
+const nodemailer = require("nodemailer");
+const { name } = require("ejs");
+
+//to send mail
+
+const sendVerifyMail = async (userName, email, user_id) => {
+	try {
+		const transporter = await nodemailer.createTransport({
+			host: "smtp.gmail.com",
+			port: 587,
+			secureConnection: "false",
+			tls: {
+				rejectUnauthorized: false,
+			},
+			auth: {
+				user: "nmuchalambe@gmail.com",
+				pass: "",
+			},
+		});
+		console.log(email);
+		const mailOption = {
+			from: "nmuchalambe@gmail.com",
+			to: email,
+			subject: "For verification mail",
+			html:
+				"<p>Hii " +
+				userName +
+				', please click here to <a href="http://localhost:8080/api/v1/user/verify?id=' +
+				user_id +
+				'"> verify </a> your mail.</p>',
+		};
+		transporter.sendMail(mailOption, function (error, info) {
+			if (error) {
+				return console.log(error);
+			} else {
+				return console.log("Email has been sent:-", info.response);
+			}
+		});
+	} catch (err) {
+		return console.log(err.message);
+	}
+};
+
+const verifyMail = async (req, res) => {
+	try {
+		console.log(req, "djfebb");
+		const updateInfo = await userDetails.updateOne(
+			{ _id: req.query.id },
+			{ $set: { isVerified: 1 } }
+		);
+		console.log(updateInfo);
+		return res.status(200).json({
+			error: false,
+			message: "email-verified",
+		});
+	} catch (err) {
+		return console.log(err.message);
+	}
+};
 
 const createUser = async (req, res, next) => {
 	try {
@@ -24,9 +83,13 @@ const createUser = async (req, res, next) => {
 			password: dt,
 			phoneNumber,
 		});
-		res.status(200).json({
+		if (userData) {
+			sendVerifyMail(req.body.userName, req.body.email, userData._id);
+		}
+		return res.status(200).json({
 			error: false,
-			message: "User added successfully",
+			message:
+				"Your registration has been done successfully, please verify your email.",
 			response: userData,
 		});
 		jwt.sign(
@@ -191,6 +254,7 @@ module.exports = {
 	updateUser,
 	userlogin,
 	exportUsers,
+	verifyMail,
 };
 
 // const updateUser = async (req, res) => {

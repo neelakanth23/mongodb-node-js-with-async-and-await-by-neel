@@ -19,10 +19,7 @@ const addProperty = async (req, res, next) => {
 
 		const url = req.protocol + "://" + req.get("host");
 
-		let image =
-			url +
-			"/app/middleware/uploads/" +
-			req.files.profilePicture[0].filename;
+		let image = url + "/app/middleware/uploads/" + req.files.profilePicture[0].filename;
 		console.log(req.files, "ffffffff");
 		console.log(image);
 

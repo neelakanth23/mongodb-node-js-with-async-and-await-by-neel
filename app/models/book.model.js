@@ -4,7 +4,34 @@ const bookSchema = new mongoose.Schema({
 	title: {
 		type: String,
 	},
-	textContent: {
+	name: {
+		type: String,
+	},
+	email: {
+		type: String,
+	},
+	country: {
+		type: String,
+	},
+	state: {
+		type: String,
+	},
+	city: {
+		type: String,
+	},
+	address: {
+		type: String,
+	},
+	pincode: {
+		type: String,
+	},
+	account_number: {
+		type: String,
+	},
+	ifsc: {
+		type: String,
+	},
+	branch: {
 		type: String,
 	},
 	//timestamps: true,

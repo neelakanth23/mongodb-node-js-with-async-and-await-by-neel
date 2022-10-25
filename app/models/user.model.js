@@ -22,11 +22,9 @@ const userSchema = new mongoose.Schema({
 		type: Number,
 		requred: true,
 	},
-	// token: {
-	//     type: String,
-	//     required: true,
-	// },
-	// timestamps: true,
+	isVerified: {
+		type: String,
+	},
 });
 
 const userDetails = mongoose.model("user", userSchema);

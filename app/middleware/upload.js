@@ -15,17 +15,21 @@ var Storage = multer.diskStorage({
 var upload = multer({
 	storage: Storage,
 	fileFilter: function (req, file, callback) {
-		if (file.mimetype == "image/png" || file.mimetype == "image/jpg") {
+		if (
+			file.mimetype == "image/png" ||
+			file.mimetype == "image/jpg" ||
+			file.mimetype.split("/")[1] === "pdf"
+		) {
 			callback(null, true);
 		} else {
 			console.log("only jpg & png file supported!");
 			callback(null, false);
 		}
-		if (file.mimetype.split("/")[1] === "pdf") {
-			callback(null, true);
-		} else {
-			callback(new Error("Not a PDF file"), false);
-		}
+		// if (file.mimetype.split("/")[1] === "pdf") {
+		// 	callback(null, true);
+		// } else {
+		// 	callback(new Error("Not a PDF file"), false);
+		// }
 	},
 	limits: {
 		fileSize: 1024 * 1024 * 1024 * 1024 * 2,

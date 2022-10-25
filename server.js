@@ -2,6 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+const openApiDocumentation = require("./app/swagger/documentation");
+// const swaggerDoc = require("swagger-ui-express");
+// const swaggerDocumentation = require("./app/swagger/documentation");
+
+//const YAML = require("yamljs");
+//const swaggerDocument = YAML.load("./swagger.yaml");
+//const swaggerUi = require("swagger-ui-express");
 
 //const bodyParser = require("bodyParser");
 
@@ -9,12 +17,29 @@ require("dotenv").config();
 
 require("./app/config/db.config");
 
+//const swaggerSpec = swaggerjsDoc(options);
+//app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// app.use("/documentations", swaggerDoc.serve);
+// app.use("/documentations", swaggerDoc.setup(swaggerDocumentation));
+
+app.use(
+	"/api/v1/swagger",
+	// (req, res, next) => {
+	// 	openApiDocumentation.host = req.get("host");
+	// 	req.swaggerDoc = openApiDocumentation;
+	// 	next();
+	// },
+	swaggerUi.serve,
+	swaggerUi.setup(openApiDocumentation)
+);
+
 var corsOptions = {
 	origin: "http://localhost:8081",
 };
 app.use(bodyParser.json());
 
-app.use(cors(corsOptions));
+app.use(cors("*"));
 
 app.use(
 	express.urlencoded({
@@ -27,16 +52,16 @@ app.use(express.json({ limit: "5mb" }));
 //importing routes
 
 const userRouter = require("./app/routes/user.route");
-app.use("/user", userRouter);
+app.use("/api/v1/user", userRouter);
 
 const shopRouter = require("./app/routes/shop.route");
-app.use("/shop", shopRouter);
+app.use("/api/v1/shop", shopRouter);
 
 const propertyRouter = require("./app/routes/property.route");
-app.use("/property", propertyRouter);
+app.use("/api/v1/property", propertyRouter);
 
 const bookRouter = require("./app/routes/book.route");
-app.use("/book", bookRouter);
+app.use("/api/v1/book", bookRouter);
 
 app.use(express.static(__dirname));
 // app.use("/app/uploads", express.static("uploads"));
@@ -57,3 +82,4 @@ let port = process.env.PORT || 8080;
 app.listen(port, () => {
 	console.log(`App is running on  ${port}`);
 });
+
